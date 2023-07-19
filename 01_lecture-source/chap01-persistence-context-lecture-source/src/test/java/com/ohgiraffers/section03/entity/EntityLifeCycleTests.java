@@ -210,7 +210,29 @@ public class EntityLifeCycleTests {
         manager.close();
 
         //then
-        Menu expectedMenu = manager.find(Menu.class, menuCode);
-        Assertions.assertNotEquals(expectedMenu, fonudMenu);
+        Assertions.assertThrows(
+                IllegalStateException.class,
+                () -> manager.find(Menu.class, menuCode)
+        );
+    }
+
+    @DisplayName("영속성 엔티티 삭제 remove 테스트")
+    @ParameterizedTest
+    @ValueSource(ints = {1})
+    void testRemoveEntity(int menuCode) {
+
+        //given
+        EntityManager manager = EntityManagerGenerator.getManagerInstance();
+        Menu foundMenu = manager.find(Menu.class, menuCode);
+        EntityTransaction transaction = manager.getTransaction();
+
+        //when
+        transaction.begin();
+        manager.remove(foundMenu);
+        manager.flush();
+
+        //then
+        Assertions.assertFalse(manager.contains(foundMenu));
+        transaction.rollback();
     }
 }
