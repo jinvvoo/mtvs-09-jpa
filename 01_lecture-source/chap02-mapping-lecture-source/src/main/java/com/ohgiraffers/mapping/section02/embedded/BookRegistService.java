@@ -1,6 +1,5 @@
 package com.ohgiraffers.mapping.section02.embedded;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +10,7 @@ public class BookRegistService {
     private BookRepository bookRepository;
 
     @Autowired
-    public BookRegistService(BookRepository bookRepository){
+    public BookRegistService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
@@ -27,8 +26,8 @@ public class BookRegistService {
                         bookInfo.getRegularPrice(),
                         bookInfo.getDiscountRate()
                 )
-
         );
+
         bookRepository.save(book);
     }
 }
